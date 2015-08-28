@@ -19,7 +19,7 @@ public abstract class BitArrayTeseoInterpreter implements Interpreter<BitArray> 
     
     protected SimpleLanguage language;
     protected BitArray instructions;
-    protected Class statementType = null;
+    protected Class<?> statementType = null;
     protected TeseoMemory memory;
     protected int head;
 

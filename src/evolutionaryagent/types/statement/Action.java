@@ -22,7 +22,7 @@ public class Action implements Statement {
     }
     
     @Override
-    public Class getType() {
+    public Class<Action> getType() {
         return Action.class;
     }
     

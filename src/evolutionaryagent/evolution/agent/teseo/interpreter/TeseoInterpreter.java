@@ -32,7 +32,7 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     
     public final int maxRepetitions = 100;
     
-    public final Class[][][] statementTable = { 
+    public final Class<?>[][][] statementTable = { 
         {{Conditional.class, Action.class}, {null, While.class}},
         {{Action.class, null}, {Repeat.class, Action.class}}
     };
@@ -42,7 +42,7 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     }
     
     @Override
-    public Class getNextStatementType() {
+    public Class<?> getNextStatementType() {
         return (areStatements())?
                 statementTable[(instructions.get(head))? 1:0][(instructions.get(head + 1))? 1:0][(instructions.get(head + 2))? 1:0] : null;
     }

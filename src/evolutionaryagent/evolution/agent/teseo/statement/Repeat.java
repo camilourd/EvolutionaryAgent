@@ -33,7 +33,7 @@ public class Repeat extends StatementSet {
     }
     
     @Override
-    public Class getType() {
+    public Class<Repeat> getType() {
         return Repeat.class;
     }
     

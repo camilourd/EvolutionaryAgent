@@ -37,7 +37,7 @@ public class Conditional implements Statement {
     }
 
     @Override
-    public Class getType() {
+    public Class<Conditional> getType() {
         return Conditional.class;
     }
     

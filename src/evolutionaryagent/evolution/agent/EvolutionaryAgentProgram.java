@@ -21,14 +21,15 @@ public abstract class EvolutionaryAgentProgram implements AgentProgram {
         this.fitness = 0.0;
     }
     
-    public void setLanguage(  SimpleLanguage language ){
-        language = language;
+    public void setLanguage(SimpleLanguage language){
+        this.language = language;
     }
     
     public double getFitness() {
         return this.fitness;
     }
     
+    @Override
     public abstract String toString();
     
 }

@@ -15,11 +15,11 @@ import unalcol.types.collection.list.Stack;
  */
 public abstract class InterpreterManager<T> {
     
-    protected Interpreter interpreter;
+    protected Interpreter<T> interpreter;
     protected Stack<Statement> statements;
     
-    public InterpreterManager(Interpreter<T> compiler) {
-        this.interpreter = compiler;
+    public InterpreterManager(Interpreter<T> interpreter) {
+        this.interpreter = interpreter;
         this.statements = new Stack<Statement>();
     }
     
@@ -31,10 +31,10 @@ public abstract class InterpreterManager<T> {
     }
 
     public T getInstructions() {
-        return (T) interpreter.getInstructions();
+        return interpreter.getInstructions();
     }
 
-    public Interpreter getInterpreter() {
+    public Interpreter<T> getInterpreter() {
         return interpreter;
     }
     

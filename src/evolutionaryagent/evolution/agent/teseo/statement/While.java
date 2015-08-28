@@ -35,7 +35,7 @@ public class While extends StatementSet {
     }
 
     @Override
-    public Class getType() {
+    public Class<While> getType() {
         return While.class;
     }
     

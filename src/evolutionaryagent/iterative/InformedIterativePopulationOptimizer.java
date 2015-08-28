@@ -25,7 +25,7 @@ public class InformedIterativePopulationOptimizer<S> extends IterativePopulation
 
     protected String filename = "";
     
-    public InformedIterativePopulationOptimizer(Predicate condition,
+    public InformedIterativePopulationOptimizer(Predicate<?> condition,
             Transformation<S> transformation, Vector<Solution<S>> population,
             String filename) {
         super(condition, transformation, population);
@@ -48,16 +48,16 @@ public class InformedIterativePopulationOptimizer<S> extends IterativePopulation
     }
     
     protected void inform() throws IOException {
-        Solution best = getBestSolution(this.output);
+        Solution<?> best = getBestSolution(this.output);
         FileWriter file = new FileWriter(filename, true);
         PrintWriter pw = new PrintWriter(file);
         pw.println(this.generation + " " + best.get().toString());
         file.close();
     }
     
-    public Solution getBestSolution(Vector<Solution<S>> solutions) {
+    public Solution<?> getBestSolution(Vector<Solution<S>> solutions) {
         double maxFitness = Double.MIN_VALUE;
-        Solution candidate = null;
+        Solution<?> candidate = null;
         for(int i = 0;i < solutions.size(); ++i)
             if(solutions.get(i).value() > maxFitness) {
                 candidate = solutions.get(i);

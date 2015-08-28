@@ -19,7 +19,7 @@ public interface Interpreter<T> {
     
     public boolean areStatements();
     public T getInstructions();
-    public Class getNextStatementType();
+    public Class<?> getNextStatementType();
     public Vector<Statement> compute(Percept prcpt);
     public Vector<Statement> compute(Percept prcpt, Vector<Statement> information);
     public void moveToNextStatement();

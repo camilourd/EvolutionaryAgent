@@ -79,7 +79,6 @@ public class MazeLanguageAgent {
         Mutation mutation = new Mutation();
         XOver xover = new XOver();
         Transposition transposition = new Transposition();
-        //Cut cut = new Cut();
         
         // Genetic operators
         Operator[] opers = new Operator[]{xover, mutation, transposition};

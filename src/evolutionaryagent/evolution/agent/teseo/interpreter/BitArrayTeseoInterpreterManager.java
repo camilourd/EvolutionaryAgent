@@ -45,12 +45,12 @@ public class BitArrayTeseoInterpreterManager extends InterpreterManager<BitArray
     }
     
     protected void manageStatements(Percept prcpt) {
-        Class type = interpreter.getNextStatementType();
+        Class<?> type = interpreter.getNextStatementType();
         interpreter.moveToNextStatement();
         manageCase(prcpt, type);
     }
 
-    private void manageCase(Percept prcpt, Class type) {
+    private void manageCase(Percept prcpt, Class<?> type) {
         if(type != null)
             computeStatement(prcpt);
         else if(!statements.isEmpty())

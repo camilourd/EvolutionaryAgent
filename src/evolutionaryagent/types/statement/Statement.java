@@ -11,6 +11,6 @@ package evolutionaryagent.types.statement;
  */
 public interface Statement {
     
-    public Class getType();
+    public Class<?> getType();
     
 }
