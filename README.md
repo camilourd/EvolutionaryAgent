@@ -9,4 +9,4 @@ You should do the following steps in order to apply parallel evaluation to your 
 3. Substitute `Solution.evaluate((Vector)pop, function);` with `Solution.paralelEvaluate((Vector)pop, function, numberOfThreads);` in the line where the first population is being evaluated.
 4. Add the line `transformation.activateParalelEvaluation(numberOfThreads);` after the Transformation class have been defined, for example: `Transformation transformation = new HAEA(haeaOperators, grow, selection);`.
 
-Finally, if you do these four steps, your algorithm ought to be evaliating the fitness function in parallel form.
+Finally, if you did these four steps, your algorithm ought to be evaliating the fitness function in parallel form.
