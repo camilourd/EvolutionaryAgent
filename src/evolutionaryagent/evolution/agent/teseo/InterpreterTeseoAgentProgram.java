@@ -42,6 +42,7 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     
     @Override
     public Action compute(Percept prcpt) {
+    	memory.saveActualSquareData(prcpt);
         String action = "die";
         if(!isThereEndedCondition(prcpt)) {
             action = getNextAction(prcpt);
@@ -107,6 +108,7 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     public void init() {
         actionsCount = 0;
         memory = new TeseoMemory();
+        memory.setLanguage(language);
         memory.init();
         manager.restart();
         manager.setMemory(memory);

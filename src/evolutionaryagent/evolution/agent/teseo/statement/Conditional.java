@@ -5,6 +5,7 @@
  */
 package evolutionaryagent.evolution.agent.teseo.statement;
 
+import evolutionaryagent.evolution.agent.teseo.AgentSquareData;
 import evolutionaryagent.evolution.agent.teseo.TeseoMemory;
 import evolutionaryagent.evolution.agent.teseo.interpreter.TeseoInterpreter;
 import evolutionaryagent.types.statement.Statement;
@@ -77,11 +78,11 @@ public class Conditional implements Statement {
     }
     
     public boolean arePossibleMovements(int head, int end) {
+    	AgentSquareData position = memory.getActualAgentSquareData();
         for(; head < end; head += 2) {
-            int dir = getDirection(head);
-            int x = memory.moveX(dir), y = memory.moveY(dir);
-            if(!memory.hasBeenExplored(x, y))
-                return false;
+            position = position.neighbours[getDirection(head)];
+            if(position == null)
+            	return false;
         }
         return true;
     }
