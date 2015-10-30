@@ -15,18 +15,14 @@ import unalcol.agents.Percept;
 public class While extends StatementSet {
 
     protected Conditional condition;
-    protected int maxRepetitions;
 
-    public While(Conditional condition, int maxRepetitions) {
+    public While(Conditional condition) {
         this.condition = condition;
-        this.maxRepetitions = maxRepetitions;
     }
     
     @Override
     public boolean areThereRepetitions(Percept prcpt) {
-        if(maxRepetitions-- > 0)
-            return condition.isAccommplished(prcpt);
-        return false;
+        return condition.isAccommplished(prcpt);
     }
     
     @Override

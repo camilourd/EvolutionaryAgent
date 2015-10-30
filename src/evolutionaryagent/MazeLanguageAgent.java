@@ -70,7 +70,7 @@ public class MazeLanguageAgent {
         
         // Function being optimized
         FitnessAgentProgram fitness = new FitnessAgentProgram();
-        fitness.setInitialPosition(0, 0);
+        fitness.addInitialPosition(0, 0);
         OptimizationFunction function =  fitness;
         // Evaluating the fitness of the initial population
         int numberOfThreads = 75;
@@ -86,6 +86,9 @@ public class MazeLanguageAgent {
         
         // Extra parent selection mechanism
         Selection selection = new Tournament(4);
+        
+        // HAEA Strategy
+        
         
         // Genetic Algorithm Transformation
         Transformation transformation = new HAEA(haeaOperators, grow, selection );

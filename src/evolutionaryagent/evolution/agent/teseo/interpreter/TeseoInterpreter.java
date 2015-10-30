@@ -30,8 +30,6 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     public final int ADVANCE = 2;
     public final int ROTATE = 3;
     
-    public final int maxRepetitions = 100;
-    
     public final Class<?>[][][] statementTable = { 
         {{Conditional.class, Action.class}, {null, While.class}},
         {{Action.class, null}, {Repeat.class, Action.class}}
@@ -115,7 +113,7 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     
     private Vector<Statement> getWhile(Percept prcpt) {
         Vector<Statement> statements = new Vector<Statement>();
-        statements.add(new While(new Conditional(memory, this, head), maxRepetitions));
+        statements.add(new While(new Conditional(memory, this, head)));
         return compute(prcpt, statements);
     }
 

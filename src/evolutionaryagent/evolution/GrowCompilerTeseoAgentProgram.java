@@ -21,7 +21,7 @@ public class GrowCompilerTeseoAgentProgram extends GrowingFunction<BitArray, Int
     @Override
     public InterpreterTeseoAgentProgram get(BitArray genome) {
         InterpreterTeseoAgentProgram program
-                = new InterpreterTeseoAgentProgram(new BitArrayTeseoInterpreterManager(new TeseoInterpreter(genome)), 900);
+                = new InterpreterTeseoAgentProgram(new BitArrayTeseoInterpreterManager(new TeseoInterpreter(genome)));
         program.setLanguage(getLanguage());
         return program;
     }

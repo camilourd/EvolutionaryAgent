@@ -23,15 +23,13 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     protected BitArrayTeseoInterpreterManager manager;
     protected int actionsCount;
     protected double discoverFitness = 0.0;
-    protected int maxNumberOfActions;
     
     public static final int FRONT = 0;
     public static final int EXIT = 4;
     public static final int DIE = 2;
 
-    public InterpreterTeseoAgentProgram(BitArrayTeseoInterpreterManager manager, int maxNumberOfActions) {
+    public InterpreterTeseoAgentProgram(BitArrayTeseoInterpreterManager manager) {
         this.manager = manager;
-        this.maxNumberOfActions = maxNumberOfActions;
     }
 
     @Override
@@ -44,24 +42,16 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     public Action compute(Percept prcpt) {
     	memory.saveActualSquareData(prcpt);
         String action = "die";
-        if(!isThereEndedCondition(prcpt)) {
+        if(!isInTheExit(prcpt)) {
             action = getNextAction(prcpt);
             act(action);
-        } else if(isInTheExit(prcpt))
+        } else
             fitness += 1000000.0 - discoverFitness;
         return new Action(action);
     }
     
-    private boolean isThereEndedCondition(Percept prcpt) {
-        return isInTheExit(prcpt) || !areThereActions();
-    }
-    
     public boolean isInTheExit(Percept prcpt) {
         return ((BitArrayTeseoInterpreter)manager.getInterpreter()).getPerception(prcpt, EXIT);
-    }
-    
-    public boolean areThereActions() {
-        return actionsCount <= maxNumberOfActions;
     }
     
     private String getNextAction(Percept prcpt) {

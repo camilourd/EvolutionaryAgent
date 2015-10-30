@@ -17,8 +17,8 @@ import unalcol.agents.simulate.util.SimpleLanguage;
  */
 public class SimpleTestArena extends TestArena {
 
-    public SimpleTestArena(Agent agent, SimpleLanguage language, JFileChooser file, int xi, int yi) {
-        super(agent, language, file, xi, yi);
+    public SimpleTestArena(Agent agent, SimpleLanguage language, JFileChooser file) {
+        super(agent, language, file);
     }
 
     @Override

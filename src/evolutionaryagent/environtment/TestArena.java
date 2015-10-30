@@ -44,23 +44,19 @@ public abstract class TestArena extends JFrame {
     protected JPanel jPanel2 = new JPanel();
     protected BorderLayout borderLayout1 = new BorderLayout();
     
-    protected int xi, yi;
-    
     private Object lock = new Object();
     
-    public TestArena(Agent agent, SimpleLanguage language, JFileChooser file, int xi, int yi) {
+    public TestArena(Agent agent, SimpleLanguage language, JFileChooser file) {
         view = new SimpleView( drawArea );
         this.agent = agent;
         this.language = language;
         labyrinth = this.newLabyrinthInstance();
-        this.xi = xi;
-        this.yi = yi;
-        this.initLabyrinth();
+        this.initLabyrinth(0, 0);
         try {
             jbInit();
             fileDir = file.getSelectedFile().getAbsolutePath();
             fileName = file.getSelectedFile().getAbsolutePath();
-            loadFile();
+            loadFile(0, 0);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -69,12 +65,16 @@ public abstract class TestArena extends JFrame {
     
     public abstract Labyrinth newLabyrinthInstance();
     
-    public void initLabyrinth(){
+    public void initLabyrinth(int x, int y){
         labyrinth = this.newLabyrinthInstance();
-        labyrinth.setAgentPosition( 0, xi, yi, 0);
+        labyrinth.setAgentPosition( 0, x, y, 0);
         labyrinth.setDelay(10);
         drawArea.getDrawer().setEnvironment( labyrinth );
         labyrinth.registerView(view);
+    }
+    
+    public void changeAgentPosition(int x, int y, int d) {
+    	labyrinth.setAgentPosition(0, x, y, d);
     }
 
     private void jbInit() {
@@ -97,9 +97,9 @@ public abstract class TestArena extends JFrame {
           } } );
     }
 
-    protected void loadFile(){
+    protected void loadFile(int x, int y){
         this.setTitle(title + " ["+fileName+"]");
-        this.initLabyrinth();
+        this.initLabyrinth(x, y);
         labyrinth.load( fileName );
         view();
     }
@@ -111,8 +111,14 @@ public abstract class TestArena extends JFrame {
     public void runTest() throws InterruptedException {
         synchronized(lock) {
             agent = labyrinth.getAgent();
+            agent.init();
             changeThreadState();
-            while(agent.status != Action.DIE) lock.wait(500);
+            long start = System.currentTimeMillis();
+            while(agent.status != Action.DIE) {
+            	lock.wait(500);
+            	if(System.currentTimeMillis() - start > 60000)
+            		agent.die();
+            }
             changeThreadState();
         }
     }

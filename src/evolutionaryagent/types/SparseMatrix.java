@@ -13,7 +13,7 @@ public class SparseMatrix<T> {
 	public T get(int xs, int ys) {
 		try {
 			return matrix.get(xs).get(ys);
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
             return null;
         }
     }
@@ -21,7 +21,7 @@ public class SparseMatrix<T> {
 	public void set(int xs, int ys, T val) {
 		try {
             matrix.get(xs).set(ys, val);
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
             matrix.set(xs, new SparseVector<T>());
             matrix.get(xs).set(ys, val);
         }
@@ -33,7 +33,7 @@ public class SparseMatrix<T> {
 			if(matrix.get(xs).size() == 0)
 				matrix.del(xs);
             return result;
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
             return true;
         }
 	}

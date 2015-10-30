@@ -5,12 +5,14 @@
  */
 package evolutionaryagent.evolution;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import evolutionaryagent.environtment.SimpleTestArena;
 import evolutionaryagent.environtment.TestArena;
 import evolutionaryagent.evolution.agent.EvolutionaryAgentProgram;
+import evolutionaryagent.types.Pair;
 import unalcol.agents.Agent;
 import unalcol.agents.examples.labyrinth.Labyrinth;
 import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
@@ -24,37 +26,47 @@ import unalcol.optimization.OptimizationFunction;
  */
 public class FitnessAgentProgram extends OptimizationFunction<EvolutionaryAgentProgram> {
 
-    protected int xi = 0, yi = 0;
-    public JFileChooser file;
+    protected JFileChooser file;
+    protected ArrayList<Pair<Integer, Integer>> initialPositions;
 
     public FitnessAgentProgram() {
         file = new JFileChooser( "." );
         file.showOpenDialog(file);
+        initialPositions = new ArrayList<Pair<Integer, Integer>>();
     }
 
-    public void setInitialPosition(int x, int y) {
-        this.xi = x;
-        this.yi = y;
+    public void addInitialPosition(int x, int y) {
+    	if(x >= 0 && y >= 0 && x < 15 && y < 15)
+    		initialPositions.add(new Pair<Integer, Integer>(x, y));
     }
     
     @Override
     public Double apply(EvolutionaryAgentProgram program) {
         try {
-            program.init();
             Agent agent = new Agent(program);
-            TestArena frame = new SimpleTestArena( agent, getLanguage(), file, xi, yi);
-            LabyrinthDrawer.DRAW_AREA_SIZE = 600;
-            LabyrinthDrawer.CELL_SIZE = 40;
-            Labyrinth.DEFAULT_SIZE = 15;
+            TestArena frame = builtArena(agent);
             frame.setVisible(true);
-            frame.runTest();
+            
+            double fitness = 0;
+            for(Pair<Integer, Integer> pos : initialPositions) {
+            	frame.changeAgentPosition(pos.first, pos.second, 0);
+	            frame.runTest();
+            	fitness += program.getFitness();
+            }
             frame.dispose();
-            //System.out.println("Fitness: " + program.fitness);
-            return program.getFitness();
+            return fitness;
         } catch (InterruptedException ex) {
             Logger.getLogger(FitnessAgentProgram.class.getName()).log(Level.SEVERE, null, ex);
             return Double.MIN_VALUE;
         }
+    }
+    
+    public TestArena builtArena(Agent agent) throws InterruptedException {
+    	TestArena frame = new SimpleTestArena( agent, getLanguage(), file);
+        LabyrinthDrawer.DRAW_AREA_SIZE = 600;
+        LabyrinthDrawer.CELL_SIZE = 40;
+        Labyrinth.DEFAULT_SIZE = 15;
+        return frame;
     }
     
     private SimpleLanguage getLanguage(){
