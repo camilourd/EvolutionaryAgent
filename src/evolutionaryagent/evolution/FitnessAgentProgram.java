@@ -5,7 +5,6 @@
  */
 package evolutionaryagent.evolution;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -19,6 +18,7 @@ import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.teseoeater.TeseoEaterLanguage;
 import unalcol.agents.simulate.util.SimpleLanguage;
 import unalcol.optimization.OptimizationFunction;
+import unalcol.types.collection.vector.Vector;
 
 /**
  *
@@ -27,12 +27,12 @@ import unalcol.optimization.OptimizationFunction;
 public class FitnessAgentProgram extends OptimizationFunction<EvolutionaryAgentProgram> {
 
     protected JFileChooser file;
-    protected ArrayList<Pair<Integer, Integer>> initialPositions;
+    protected Vector<Pair<Integer, Integer>> initialPositions;
 
     public FitnessAgentProgram() {
         file = new JFileChooser( "." );
         file.showOpenDialog(file);
-        initialPositions = new ArrayList<Pair<Integer, Integer>>();
+        initialPositions = new Vector<Pair<Integer, Integer>>();
     }
 
     public void addInitialPosition(int x, int y) {
@@ -43,18 +43,19 @@ public class FitnessAgentProgram extends OptimizationFunction<EvolutionaryAgentP
     @Override
     public Double apply(EvolutionaryAgentProgram program) {
         try {
-            Agent agent = new Agent(program);
-            TestArena frame = builtArena(agent);
-            frame.setVisible(true);
-            
             double fitness = 0;
+            program.setLanguage(getLanguage());
             for(Pair<Integer, Integer> pos : initialPositions) {
+            	program.init();
+            	Agent agent = new Agent(program);
+                TestArena frame = builtArena(agent);
+                frame.setVisible(true);
             	frame.changeAgentPosition(pos.first, pos.second, 0);
-	            frame.runTest();
+            	frame.runTest();
             	fitness += program.getFitness();
+            	frame.dispose();
             }
-            frame.dispose();
-            return fitness;
+            return fitness / initialPositions.size();
         } catch (InterruptedException ex) {
             Logger.getLogger(FitnessAgentProgram.class.getName()).log(Level.SEVERE, null, ex);
             return Double.MIN_VALUE;

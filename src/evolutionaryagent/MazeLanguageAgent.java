@@ -71,9 +71,27 @@ public class MazeLanguageAgent {
         // Function being optimized
         FitnessAgentProgram fitness = new FitnessAgentProgram();
         fitness.addInitialPosition(0, 0);
+        fitness.addInitialPosition(14, 6);
+        fitness.addInitialPosition(2, 13);
+        fitness.addInitialPosition(9, 1);
+        fitness.addInitialPosition(3, 11);
+        fitness.addInitialPosition(11, 9);
+        fitness.addInitialPosition(1, 1);
+        fitness.addInitialPosition(2, 5);
+        fitness.addInitialPosition(3, 5);
+        fitness.addInitialPosition(13, 12);
+        fitness.addInitialPosition(4, 13);
+        fitness.addInitialPosition(8, 9);
+        fitness.addInitialPosition(11, 10);
+        fitness.addInitialPosition(13, 14);
+        fitness.addInitialPosition(12, 3);
+        fitness.addInitialPosition(7, 2);
+        fitness.addInitialPosition(2, 2);
+        fitness.addInitialPosition(0, 4);
+        
         OptimizationFunction function =  fitness;
         // Evaluating the fitness of the initial population
-        int numberOfThreads = 75;
+        int numberOfThreads = 70;
         Solution.paralelEvaluate((Vector)pop, function, numberOfThreads);
         
         Mutation mutation = new Mutation();
@@ -95,12 +113,12 @@ public class MazeLanguageAgent {
         transformation.activateParalelEvaluation(numberOfThreads);
         
         // Evolution generations
-        int MAXITER = 100;
+        int MAXITER = 60;
         ForLoopCondition condition = new ForLoopCondition(MAXITER);
         
         // Evolutionary algorithm (is a population optimizer)
         PopulationOptimizer ea = new InformedIterativePopulationOptimizer(condition,
-                transformation, pop, "bestPosition0-0.txt");
+                transformation, pop, "bestPosition(18il).txt");
         
          // A console set tracer
         Tracer tracer = new ConsoleTracer(ea);

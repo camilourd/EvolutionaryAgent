@@ -23,6 +23,7 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     protected BitArrayTeseoInterpreterManager manager;
     protected int actionsCount;
     protected double discoverFitness = 0.0;
+    public boolean exit = false;
     
     public static final int FRONT = 0;
     public static final int EXIT = 4;
@@ -43,10 +44,12 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
     	memory.saveActualSquareData(prcpt);
         String action = "die";
         if(!isInTheExit(prcpt)) {
-            action = getNextAction(prcpt);
+    		action = getNextAction(prcpt);
             act(action);
-        } else
-            fitness += 1000000.0 - discoverFitness;
+        } else {
+            fitness += 225 - discoverFitness;
+            exit = true;
+        }
         return new Action(action);
     }
     
@@ -96,12 +99,15 @@ public class InterpreterTeseoAgentProgram extends EvolutionaryAgentProgram {
 
     @Override
     public void init() {
+    	super.init();
         actionsCount = 0;
+        discoverFitness = 0;
         memory = new TeseoMemory();
         memory.setLanguage(language);
         memory.init();
         manager.restart();
         manager.setMemory(memory);
+        exit = false;
     }
 
     @Override

@@ -19,12 +19,14 @@ public class SparseMatrix<T> {
     }
 	
 	public void set(int xs, int ys, T val) {
-		try {
-            matrix.get(xs).set(ys, val);
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-            matrix.set(xs, new SparseVector<T>());
-            matrix.get(xs).set(ys, val);
-        }
+		if(val != null) {
+			try {
+	            matrix.get(xs).set(ys, val);
+	        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+	            matrix.set(xs, new SparseVector<T>());
+	            matrix.get(xs).set(ys, val);
+	        }
+		}
 	}
 	
 	public boolean del(int xs, int ys) {

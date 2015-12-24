@@ -58,9 +58,9 @@ public class TeseoMemory  implements Memory {
     }
 
     public void saveActualSquareData(Percept prcpt) {
-		if(mark.get(actX, actY) == null)
-			mark.set(actX, actY, new AgentSquareData());
-		linkNeighbours(mark.get(actX, actY), prcpt);
+    	AgentSquareData data = new AgentSquareData();
+		linkNeighbours(data, prcpt);
+		mark.set(actX, actY, data);
 	}
 
 	private void linkNeighbours(AgentSquareData agentSquareData, Percept prcpt) {
@@ -72,10 +72,10 @@ public class TeseoMemory  implements Memory {
 	}
 
 	private void link(AgentSquareData actual, AgentSquareData neighbour, int dir) {
-		if(neighbour != null) {
+		try {
 			actual.neighbours[dir] = neighbour;
 			neighbour.neighbours[(dir + 2) % 4] = actual;
-		}
+		} catch(NullPointerException e) {}
 	}
 
 	public boolean hasBeenExplored(int x, int y) {

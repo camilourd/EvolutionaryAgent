@@ -63,14 +63,16 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
 
     @Override
     public Vector<Statement> compute(Percept prcpt) {
-        if(statementType == Action.class)
-            return getActions(prcpt);
-        else if(statementType == Repeat.class)
-            return getRepeat(prcpt);
-        else if(statementType == Conditional.class)
-            return getConditional(prcpt);
-        else if(statementType == While.class)
-            return getWhile(prcpt);
+    	if(statementType != null) {
+	        if(statementType.equals(Action.class))
+	            return getActions(prcpt);
+	        else if(statementType.equals(Repeat.class))
+	            return getRepeat(prcpt);
+	        else if(statementType.equals(Conditional.class))
+	            return getConditional(prcpt);
+	        else if(statementType.equals(While.class))
+	            return getWhile(prcpt);
+    	}
         return null;
     }
 
@@ -120,12 +122,13 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     @Override
     public Vector<Statement> compute(Percept prcpt, Vector<Statement> information) {
         Vector<Statement> statements = new Vector<Statement>();
-        if(information.get(0).getType() != Conditional.class) {
+        if(information.size() > 0 && !information.get(0).getType().equals(Conditional.class)
+        		&& !information.get(0).getType().equals(Action.class)) {
             StatementSet loop = (StatementSet) information.get(0);
             if(loop.areThereRepetitions(prcpt)) {
                 head = loop.repeat();
                 statements.add(loop);
-            } else if(loop.getType() == While.class) {
+            } else if(loop.getType().equals(While.class)) {
                 head = loop.repeat();
                 ignore(prcpt, loop);
             }
@@ -138,15 +141,18 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
         loops.add(statement);
         while(!loops.isEmpty()) {
             moveToNextStatement();
-            if(statementType == Action.class)
-                head += ACTION_SIZE;
-            else if(statementType == Repeat.class)
-                loops.add(getRepeat(prcpt).get(0));
-            else if(statementType == Conditional.class)
-                loops.add(getConditional(prcpt).get(0));
-            else if(statementType == While.class)
-                loops.add(getWhile(prcpt).get(0));
-            else
+            if(statementType != null) {
+	            if(statementType.equals(Action.class))
+	                head += ACTION_SIZE;
+	            else if(statementType.equals(Repeat.class))
+	                loops.add(getRepeat(prcpt).get(0));
+	            else if(statementType.equals(Conditional.class))
+	                loops.add(getConditional(prcpt).get(0));
+	            else if(statementType.equals(While.class))
+	                loops.add(getWhile(prcpt).get(0));
+	            else
+	                loops.pop();
+            } else
                 loops.pop();
         }
     }

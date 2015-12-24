@@ -32,16 +32,20 @@ public class BitArrayTeseoInterpreterManager extends InterpreterManager<BitArray
 
     @Override
     public String getNextInstruction(Percept prcpt) {
-        while(!isThereAction())
-            if(statements.isEmpty() && !interpreter.areStatements())
-                statements.push(new Action(((BitArrayTeseoInterpreter)interpreter).getDieAction()));
-            else
-                manageStatements(prcpt);
-        return ((Action)statements.pop()).getInstruction();
+    	try {
+	        while(!isThereAction())
+	            if(statements.isEmpty() && !interpreter.areStatements())
+	                statements.push(new Action(((BitArrayTeseoInterpreter)interpreter).getDieAction()));
+	            else
+	                manageStatements(prcpt);
+	        return ((Action)statements.pop()).getInstruction();
+    	} catch(Exception e) {
+    		return "die";
+    	}
     }
     
     public boolean isThereAction() {
-        return !statements.isEmpty() && statements.get().getType() == Action.class;
+        return !statements.isEmpty() && statements.get().getType().equals(Action.class);
     }
     
     protected void manageStatements(Percept prcpt) {
@@ -64,9 +68,11 @@ public class BitArrayTeseoInterpreterManager extends InterpreterManager<BitArray
 
     private void closeStatementSet(Percept prcpt) {
         Vector<Statement> inputs = new Vector<Statement>();
-        inputs.add(statements.pop());
-        Vector<Statement> stms = interpreter.compute(prcpt, inputs);
-        addStatements(stms);
+        if(!statements.isEmpty()) {
+        	inputs.add(statements.pop());
+        	Vector<Statement> stms = interpreter.compute(prcpt, inputs);
+        	addStatements(stms);
+        }
     }
 
     protected void addStatements(Vector<Statement> stms) throws IndexOutOfBoundsException {

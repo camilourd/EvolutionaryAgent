@@ -18,7 +18,7 @@ public abstract class EvolutionaryAgentProgram implements AgentProgram {
     protected double fitness;
     
     public EvolutionaryAgentProgram() {
-        this.fitness = 0.0;
+        this.fitness = 0;
     }
     
     public void setLanguage(SimpleLanguage language){
@@ -31,5 +31,10 @@ public abstract class EvolutionaryAgentProgram implements AgentProgram {
     
     @Override
     public abstract String toString();
+    
+    @Override
+    public void init() {
+    	fitness = 0;
+    }
     
 }

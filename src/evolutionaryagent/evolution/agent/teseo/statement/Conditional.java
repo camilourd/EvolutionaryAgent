@@ -79,12 +79,15 @@ public class Conditional implements Statement {
     
     public boolean arePossibleMovements(int head, int end) {
     	AgentSquareData position = memory.getActualAgentSquareData();
-        for(; head < end; head += 2) {
-            position = position.neighbours[getDirection(head)];
-            if(position == null)
-            	return false;
-        }
-        return true;
+    	if(position != null) {
+	        for(; head < end; head += 2) {
+	            position = position.neighbours[getDirection(head)];
+	            if(position == null)
+	            	return false;
+	        }
+	        return true;
+    	}
+    	return false;
     }
     
     public int getDirection(int head) {
