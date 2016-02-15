@@ -63,25 +63,28 @@ public class Conditional implements Statement {
     }
     
     public boolean areEnoughBits(int head, int size) {
-        return head + size < interpreter.getInstructions().size();
+        return head + size <= interpreter.getInstructions().size();
     }
     
     public ConditionResult isPossibleRath(Percept prcpt, int head) {
         if(areEnoughBits(head, 4)) {
-            int numberOfDirections = interpreter.readNumber(head, 4);
-            if(areEnoughBits(head + 4, numberOfDirections << 1)) {
-                int end = head + 4 + (numberOfDirections << 1);
+            int size = interpreter.readNumber(head, 4) << 1;
+            int end = head + 4 + size;
+            if(areEnoughBits(head + 4, size))
                 return new ConditionResult(arePossibleMovements(head + 4, end), end);
-            }
+            return new ConditionResult(false, end);
         }
-        return new ConditionResult(false, interpreter.getInstructions().size());
+        return new ConditionResult(false, head + 4);
     }
     
     public boolean arePossibleMovements(int head, int end) {
     	AgentSquareData position = memory.getActualAgentSquareData();
+    	int dir = memory.getDir();
     	if(position != null) {
 	        for(; head < end; head += 2) {
-	            position = position.neighbours[getDirection(head)];
+	        	dir = (dir + getDirection(head)) % 4;
+	        	//dir = getDirection(head);
+	            position = position.neighbours[dir];
 	            if(position == null)
 	            	return false;
 	        }

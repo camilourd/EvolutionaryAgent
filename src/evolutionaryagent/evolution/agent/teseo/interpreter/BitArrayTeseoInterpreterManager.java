@@ -33,11 +33,12 @@ public class BitArrayTeseoInterpreterManager extends InterpreterManager<BitArray
     @Override
     public String getNextInstruction(Percept prcpt) {
     	try {
-	        while(!isThereAction())
+	        while(!isThereAction()) {
 	            if(statements.isEmpty() && !interpreter.areStatements())
 	                statements.push(new Action(((BitArrayTeseoInterpreter)interpreter).getDieAction()));
 	            else
 	                manageStatements(prcpt);
+	        }
 	        return ((Action)statements.pop()).getInstruction();
     	} catch(Exception e) {
     		return "die";

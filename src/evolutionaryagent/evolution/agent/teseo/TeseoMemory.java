@@ -78,6 +78,10 @@ public class TeseoMemory  implements Memory {
 		} catch(NullPointerException e) {}
 	}
 
+	public int getDir() {
+		return dir;
+	}
+
 	public boolean hasBeenExplored(int x, int y) {
         return mark.get(x, y) != null;
     }

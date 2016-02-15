@@ -51,7 +51,7 @@ public class MazeLanguageAgent {
         ServiceProvider provider = ReflectUtil.getProvider("services/");
         
         // Search Space 
-        int BITARRAYLENGTH = 50;
+        int BITARRAYLENGTH = 20;
         BitArray array = new BitArray(BITARRAYLENGTH, true);
         InstanceService ikey = new BitArrayInstance();
         provider.register(ikey);
@@ -70,28 +70,33 @@ public class MazeLanguageAgent {
         
         // Function being optimized
         FitnessAgentProgram fitness = new FitnessAgentProgram();
+        // eater
         fitness.addInitialPosition(0, 0);
-        fitness.addInitialPosition(14, 6);
-        fitness.addInitialPosition(2, 13);
         fitness.addInitialPosition(9, 1);
-        fitness.addInitialPosition(3, 11);
+        fitness.addInitialPosition(14, 6);
         fitness.addInitialPosition(11, 9);
-        fitness.addInitialPosition(1, 1);
-        fitness.addInitialPosition(2, 5);
+        fitness.addInitialPosition(2, 13);
+        fitness.addInitialPosition(3, 10);
         fitness.addInitialPosition(3, 5);
-        fitness.addInitialPosition(13, 12);
-        fitness.addInitialPosition(4, 13);
-        fitness.addInitialPosition(8, 9);
-        fitness.addInitialPosition(11, 10);
-        fitness.addInitialPosition(13, 14);
-        fitness.addInitialPosition(12, 3);
+        fitness.addInitialPosition(8, 8);
+        fitness.addInitialPosition(4, 14);
         fitness.addInitialPosition(7, 2);
-        fitness.addInitialPosition(2, 2);
-        fitness.addInitialPosition(0, 4);
+        fitness.addInitialPosition(4, 13);
+        fitness.addInitialPosition(12, 10);
+        fitness.addInitialPosition(12, 3);
+        fitness.addInitialPosition(8, 11);
+        fitness.addInitialPosition(5, 10);
+        // Maze 2
+        /*fitness.addInitialPosition(3, 2);
+        fitness.addInitialPosition(4, 6);
+        fitness.addInitialPosition(0, 14);
+        fitness.addInitialPosition(12, 13);
+        fitness.addInitialPosition(8, 11);
+        fitness.addInitialPosition(13, 3);*/
         
         OptimizationFunction function =  fitness;
         // Evaluating the fitness of the initial population
-        int numberOfThreads = 70;
+        int numberOfThreads = 80;
         Solution.paralelEvaluate((Vector)pop, function, numberOfThreads);
         
         Mutation mutation = new Mutation();
@@ -113,12 +118,12 @@ public class MazeLanguageAgent {
         transformation.activateParalelEvaluation(numberOfThreads);
         
         // Evolution generations
-        int MAXITER = 60;
+        int MAXITER = 80;
         ForLoopCondition condition = new ForLoopCondition(MAXITER);
         
         // Evolutionary algorithm (is a population optimizer)
         PopulationOptimizer ea = new InformedIterativePopulationOptimizer(condition,
-                transformation, pop, "bestPosition(18il).txt");
+                transformation, pop, "bestPosition(15il-em).txt");
         
          // A console set tracer
         Tracer tracer = new ConsoleTracer(ea);

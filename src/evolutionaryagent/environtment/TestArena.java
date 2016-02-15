@@ -116,7 +116,7 @@ public abstract class TestArena extends JFrame {
             long start = System.currentTimeMillis();
             while(agent.status != Action.DIE) {
             	lock.wait(500);
-            	if(System.currentTimeMillis() - start > 60000)
+            	if(System.currentTimeMillis() - start > 180000)
             		agent.die();
             }
             changeThreadState();

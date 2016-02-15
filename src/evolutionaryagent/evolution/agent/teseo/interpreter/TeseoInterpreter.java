@@ -75,11 +75,12 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
     	}
         return null;
     }
-
+    
     protected Vector<Statement> getActions(Percept prcpt) {
         Vector<Statement> statements = new Vector<Statement>();
         if(isThereEnoughSpace(ACTION_SIZE)) {
             int dir = ((instructions.get(head))? 2:0) + ((instructions.get(head + 1))? 1:0);
+            //if(dir == 3) System.out.println(head);
             if(!getPerception(prcpt, dir)) {
                 statements.add(new Action(language.getAction(ADVANCE)));
                 for(int i = 0;i < dir; ++i)
@@ -96,7 +97,6 @@ public class TeseoInterpreter extends BitArrayTeseoInterpreter {
             statements.add(new Repeat(readNumber(head, NUMBER_SIZE), head + NUMBER_SIZE));
             statements = compute(prcpt, statements);
         }
-        head += NUMBER_SIZE;
         return statements;
     }
     
